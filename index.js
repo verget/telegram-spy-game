@@ -47,6 +47,7 @@ startNewGame = (playersCount) => {
   console.log(spyNum);
 };
 
+
 getLocationList = () => {
   return JSON.parse(fs.readFileSync('locations.json', 'utf8'));
 };
