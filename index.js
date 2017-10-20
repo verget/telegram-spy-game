@@ -1,8 +1,7 @@
 const fs = require('fs');
-const { Composer, Markup, Extra, memorySession } = require('micro-bot');
+const { Composer, Markup, Extra } = require('micro-bot');
 const app = new Composer();
 
-app.use(memorySession());
 
 startNewGame = (ctx) => {
   if (currentGame.active) {
@@ -37,6 +36,9 @@ joinGame = (ctx) => {
   if (currentGame.players.length === currentGame.spyNum) {
     return ctx.reply('Поздравляю, вы - шпион, удачи.').catch(err => console.log(err));
   }
+  if (currentGame.players.length == currentGame.playersCount) {
+    finishGame();
+  }
   return ctx.reply(currentGame.location).catch(err => console.log(err));
 };
 
@@ -46,11 +48,24 @@ getLocationList = () => {
 
 mainMenu = (ctx) => {
   ctx.reply('Чего желаете?', Markup
-    .keyboard([['/new_game', '/join_game', '/finish_game']])
-    .oneTime()
-    .resize()
-    .extra()
+    .inlineKeyboard([
+      Markup.callbackButton('New game', 'new_game'),
+      Markup.callbackButton('Join', 'join_game'),
+      Markup.callbackButton('Finish current', 'finish_game')
+    ]).extra()
   )
+};
+
+finishGame = () => {
+  currentGame = {
+    active: false,
+    playersCount: 0,
+    players: [],
+    spyNum: 0,
+    spyPlayer: 0,
+    locations: getLocationList(),
+    location: ''
+  };
 };
 
 const locationCount = 5;
@@ -65,24 +80,15 @@ let currentGame = {
   location: ''
 };
 
-  
 app.command('start', (ctx) => {
   mainMenu(ctx);
 });
 
 app.command('finish_game', (ctx) => {
-  currentGame = {
-    active: false,
-    playersCount: 0,
-    players: [],
-    spyNum: 0,
-    spyPlayer: 0,
-    locations: getLocationList(),
-    location: ''
-  };
+  finishGame();
 });
 
-app.command('new_game', (ctx) => {
+app.action('new_game', (ctx, next) => {
   return ctx.reply('How many players?', Extra.HTML().markup((m) =>
     m.inlineKeyboard([
       m.callbackButton('3', 'create_game 3'),
@@ -92,7 +98,7 @@ app.command('new_game', (ctx) => {
       m.callbackButton('7', 'create_game 7'),
       m.callbackButton('8', 'create_game 8'),
       m.callbackButton('9', 'create_game 9')
-    ])))
+    ]))).then(next)
 });
 
 app.action(/create_game (.+)/, (ctx) => {
@@ -111,8 +117,6 @@ app.command('/locations', (ctx) => {
 });
 
 app.on('sticker', ({ reply }) => reply('👍'));
-
-
 
 
 module.exports = app;
