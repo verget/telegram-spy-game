@@ -81,6 +81,10 @@ app.command('locations', (ctx) => {
   ctx.reply(locs.join(', '));
 });
 
+app.command('help', (ctx) => {
+  ctx.replyWithMarkup();
+});
+
 app.action(/create_game (.+)/, (ctx) => {
   ctx.answerCallbackQuery('Go!');
   ctx.deleteMessage();
