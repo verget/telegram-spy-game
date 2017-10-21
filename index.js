@@ -9,8 +9,6 @@ _startNewGame = (ctx) => {
   currentGame.spyNum = Math.floor(Math.random() * currentGame.playersCount) + 1;
   const randomLocationNum = Math.floor(Math.random() * currentGame.locations.length);
   currentGame.location = currentGame.locations[randomLocationNum];
-  
-  console.log(currentGame.location);
   _joinGame(ctx);
 };
 
@@ -19,7 +17,7 @@ _joinGame = (ctx) => {
   console.log(message);
   let alreadyIn = currentGame.players.find((user) => user.id === message.from.id);
   if (alreadyIn) {
-    return ctx.reply('You already in');
+    return ctx.reply('You are already in');
   }
   currentGame.players.push({
     id: message.from.id,
@@ -68,7 +66,8 @@ app.command('start', (ctx) => {
         m.callbackButton('7', 'create_game 7'),
         m.callbackButton('8', 'create_game 8'),
         m.callbackButton('9', 'create_game 9')
-      ])))
+      ])
+    ));
   }
 });
 
@@ -79,7 +78,6 @@ app.command('reset', (ctx) => {
 
 app.command('locations', (ctx) => {
   const locs = getLocationList();
-  console.log(locs);
   ctx.reply(locs.join(', '));
 });
 
