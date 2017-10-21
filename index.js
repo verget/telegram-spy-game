@@ -19,17 +19,17 @@ _joinGame = (ctx) => {
   console.log(message);
   let alreadyIn = currentGame.players.find((user) => user.id === message.from.id);
   if (alreadyIn) {
-    return ctx.reply('Вы уже в игре');
+    return ctx.reply('You already in');
   }
   currentGame.players.push({
     id: message.from.id,
     username: message.from.username
   });
   if (currentGame.players.length === currentGame.spyNum) {
-    return ctx.reply('Поздравляю, вы - шпион, удачи.').catch(err => console.log(err));
+    return ctx.reply('Congratulations! You are spy, good luck. (you can ask locations list by send /locations)').catch(err => console.log(err));
   }
   if (currentGame.players.length == (currentGame.playersCount - 1)) {
-    ctx.reply('Расчет окончен, давайте сыграем.');
+    ctx.reply('Lets play');
     _resetGame();
   }
   return ctx.reply(currentGame.location).catch(err => console.log(err));
@@ -68,11 +68,12 @@ app.command('start', (ctx) => {
         m.callbackButton('7', 'create_game 7'),
         m.callbackButton('8', 'create_game 8'),
         m.callbackButton('9', 'create_game 9')
-      ]))).then(next)
+      ])))
   }
 });
 
-app.command('reset', () => {
+app.command('reset', (ctx) => {
+  ctx.reply('Current game cleared, you can start new by send /start');
   _resetGame();
 });
 
@@ -84,6 +85,7 @@ app.command('locations', (ctx) => {
 
 app.action(/create_game (.+)/, (ctx) => {
   ctx.answerCallbackQuery('Go!');
+  ctx.deleteMessage();
   _startNewGame(ctx);
 });
 
