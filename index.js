@@ -10,11 +10,11 @@ _startNewGame = (ctx) => {
   const randomLocationNum = Math.floor(Math.random() * currentGame.locations.length);
   currentGame.location = currentGame.locations[randomLocationNum];
   _joinGame(ctx);
+  setTimeout(() => _resetGame(), 15 * 360000) //reset game after 15 minutes
 };
 
 _joinGame = (ctx) => {
   let message = ctx.update.message || ctx.update.callback_query.message;
-  console.log(message);
   let alreadyIn = currentGame.players.find((user) => user.id === message.from.id);
   if (alreadyIn) {
     return ctx.reply('You are already in');
@@ -30,7 +30,12 @@ _joinGame = (ctx) => {
     ctx.reply('Lets play');
     _resetGame();
   }
-  return ctx.reply(currentGame.location).catch(err => console.log(err));
+  ctx.reply(currentGame.location.title).catch(err => console.log(err));
+  ctx.replyWithPhoto({
+    source: './img/' + currentGame.location.img,
+    caption: currentGame.location.title
+  }).catch(err => console.log(err));
+  return true;
 };
 
 _getLocationList = () => {
@@ -77,12 +82,15 @@ app.command('reset', (ctx) => {
 });
 
 app.command('locations', (ctx) => {
-  const locs = getLocationList();
-  ctx.reply(locs.join(', '));
+  return ctx.replyWithPhoto({
+    source: './img/0.jpg'
+  }).catch(err => console.log(err));
 });
 
 app.command('help', (ctx) => {
-  ctx.replyWithMarkup();
+  ctx.telegram.sendPhoto(ctx.chat.id, {
+    source: './img/1.jpg'
+  });
 });
 
 app.action(/create_game (.+)/, (ctx) => {

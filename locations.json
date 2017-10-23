@@ -1,29 +1,110 @@
 [
-  "Airplane (Авиалайнер)",
-  "Bank (Банк)",
-  "Beach (Пляж)",
-  "Cathedral (Церковь)",
-  "Circus tent",
-  "Corporate party (Корпоратив)",
-  "Crusader army (Армия крестоносцев)",
-  "Casino",
-  "Day spa (Спа салон)",
-  "Embassy (Посольство)",
-  "Hospital",
-  "Hotel",
-  "Military base (Военная база)",
-  "Movie studi (Киностудия)",
-  "Ocean liner",
-  "Passenger train",
-  "Pirate ship",
-  "Polar station",
-  "Police station",
-  "Restaurant",
-  "School",
-  "Service station (Автомастерская)",
-  "Space station (Космическая станция)",
-  "Submarine (Подлодка)",
-  "Supermarket",
-  "Theater",
-  "University"
+  {
+    "title":"Airplane (Авиалайнер)",
+    "img":"12.jpg"
+  },
+  {
+    "title":"Bank (Банк)",
+    "img":"11.jpg"
+  },
+  {
+    "title":"Beach (Пляж)",
+    "img":"3.jpg"
+  },
+  {
+    "title":"Cathedral (Церковь)",
+    "img":"27.jpg"
+  },
+  {
+    "title":"Circus tent",
+    "img":"7.jpg"
+  },
+  {
+    "title":"Corporate party (Корпоратив)",
+    "img":"21.jpg"
+  },
+  {
+    "title":"Crusader army (Армия крестоносцев)",
+    "img":"9.jpg"
+  },
+  {
+    "title":"Casino",
+    "img":"26.jpg"
+  },
+  {
+    "title":"Day spa (Спа салон)",
+    "img":"22.jpg"
+  },
+  {
+    "title":"Embassy (Посольство)",
+    "img":"24.jpg"
+  },
+  {
+    "title":"Hospital",
+    "img":"8.jpg"
+  },
+  {
+    "title":"Hotel",
+    "img":"19.jpg"
+  },
+  {
+    "title":"Military base (Военная база)",
+    "img":"15.jpg"
+  },
+  {
+    "title":"Movie studi (Киностудия)",
+    "img":"14.jpg"
+  },
+  {
+    "title":"Ocean liner",
+    "img":"17.jpg"
+  },
+  {
+    "title":"Passenger train",
+    "img":"10.jpg"
+  },
+  {
+    "title":"Pirate ship",
+    "img":"20.jpg"
+  },
+  {
+    "title":"Polar station",
+    "img":"18.jpg"
+  },
+  {
+    "title":"Police station",
+    "img":"13.jpg"
+  },
+  {
+    "title":"Restaurant",
+    "img":"2.jpg"
+  },
+  {
+    "title":"School",
+    "img":"4.jpg"
+  },
+  {
+    "title":"Service station (Автомастерская)",
+    "img":"6.jpg"
+  },
+  {
+    "title":"Space station (Космическая станция)",
+    "img":"25.jpg"
+  },
+  {
+    "title":"Submarine (Подлодка)",
+    "img":"16.jpg"
+  },
+  {
+    "title":"Supermarket",
+    "img":"5.jpg"
+  },
+  {
+    "title":"Theater",
+    "img":"1.jpg"
+  },
+  {
+    "title":"University",
+    "img":"23.jpg"
+  }
 ]
