@@ -1,6 +1,6 @@
 
 const fs = require('fs');
-const { Composer, Markup, Extra } = require('micro-bot');
+const { Composer, Extra } = require('micro-bot');
 const app = new Composer();
 
 _startNewGame = (ctx) => {
@@ -24,7 +24,7 @@ _joinGame = (ctx) => {
     username: message.from.username
   });
   if (currentGame.players.length === currentGame.spyNum) {
-    return ctx.reply('Congratulations! You are spy, good luck. (you can ask locations list by send /locations)').catch(err => console.log(err));
+    return ctx.reply('Congratulations! You are spy, good luck. (you can get locations list by send /locations)').catch(err => console.log(err));
   }
   if (currentGame.players.length == (currentGame.playersCount - 1)) {
     ctx.reply('Lets play');
