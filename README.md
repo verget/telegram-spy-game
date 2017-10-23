@@ -11,7 +11,7 @@ Spyfall board game in your telegram! [@spy_game_bot](http://telegram.me/spy_game
  1. Clone this project
  2. Create your own .env file with bot token, got from [@BotFather](http://telegram.me/BotFather)
  3. ```npm install ```
- 4. ```npm start```
+ 4. ```npm start-local```
  
 ## Links
 
