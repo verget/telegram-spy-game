@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-local": "micro-bot -e",
-    "start": "micro-bot -d https://spyfall-bot.herokuapp.com/"
+    "start": "micro-bot -d $BOT_DOMAIN"
   },
   "repository": {
     "type": "git",
