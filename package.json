@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-local": "micro-bot -e",
-    "start": "micro-bot -d $BOT_DOMAIN"
+    "start": "micro-bot -d ${NOW_URL}"
   },
   "repository": {
     "type": "git",

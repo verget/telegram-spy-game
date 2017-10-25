@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const { Composer, Extra } = require('micro-bot');
 const app = new Composer();
@@ -85,12 +84,6 @@ app.command('locations', (ctx) => {
   return ctx.replyWithPhoto({
     source: './img/0.jpg'
   }).catch(err => console.log(err));
-});
-
-app.command('help', (ctx) => {
-  ctx.telegram.sendPhoto(ctx.chat.id, {
-    source: './img/1.jpg'
-  });
 });
 
 app.action(/create_game (.+)/, (ctx) => {
