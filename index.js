@@ -1,15 +1,24 @@
 const fs = require('fs');
-const { Composer, Extra } = require('micro-bot');
-const app = new Composer();
+const { Extra } = require('micro-bot');
+const Telegraf  = require('micro-bot');
+const app = new Telegraf(process.env.BOT_TOKEN);
 
 _startNewGame = (ctx) => {
+  console.log(currentGame.active);
+  if (currentGame.active) {
+    ctx.reply('Game already started');
+    return false;
+  }
   currentGame.active = true;
-  currentGame.playersCount = ctx.match[1] + 1;
+  currentGame.playersCount = ++ctx.match[1];
+  currentGame.players = [];
+  console.log(currentGame.playersCount + " players");
   currentGame.spyNum = Math.floor(Math.random() * currentGame.playersCount) + 1;
-  const randomLocationNum = Math.floor(Math.random() * currentGame.locations.length);
-  currentGame.location = currentGame.locations[randomLocationNum];
-  _joinGame(ctx);
-  setTimeout(() => _resetGame(), 15 * 360000) //reset game after 15 minutes
+  console.log(currentGame.spyNum + " is spy");
+  const locations = _getLocationList();
+  const randomLocationNum = Math.floor(Math.random() * locations.length);
+  currentGame.location = locations[randomLocationNum];
+  return _joinGame(ctx);
 };
 
 _joinGame = (ctx) => {
@@ -23,22 +32,57 @@ _joinGame = (ctx) => {
     username: message.from.username
   });
   if (currentGame.players.length === currentGame.spyNum) {
-    return ctx.reply('Congratulations! You are spy, good luck. (you can get locations list by send /locations)').catch(err => console.log(err));
+    ctx.reply('Congratulations! You are spy, good luck. (you can get locations list by send /locations)')
+      .catch(err => console.log(err));
+  } else {
+    ctx.reply(currentGame.location.title).catch(err => console.log(err));
+    ctx.replyWithPhoto({
+      source: './img/' + currentGame.location.img,
+      caption: currentGame.location.title
+    }).catch(err => console.log(err));
   }
   if (currentGame.players.length == (currentGame.playersCount - 1)) {
-    ctx.reply('Lets play');
-    _resetGame();
+    sendMessageToPlayers('Game started, lets play');
+    setTimeout(() => _finishGame(), 5 * 360000); //end game after 5 minutes
   }
-  ctx.reply(currentGame.location.title).catch(err => console.log(err));
-  ctx.replyWithPhoto({
-    source: './img/' + currentGame.location.img,
-    caption: currentGame.location.title
-  }).catch(err => console.log(err));
-  return true;
+};
+_finishGame = () => {
+  sendMessageToPlayers('Time is over. Spy won.');
+  _resetGame();
+};
+sendMessageToPlayers = (text) => {
+  if (!currentGame.players.length) {
+    return false;
+  }
+  console.log('sendMessageToPlayers');
+  currentGame.players.forEach(player => {
+    console.log(player);
+    app.telegram.sendMessage(player.id, text);
+  });
 };
 
 _getLocationList = () => {
   return JSON.parse(fs.readFileSync('locations.json', 'utf8'));
+};
+
+_setCurrentGame = (gameObject = null) => {
+  if (!gameObject) {
+    gameObject = {
+      active: false,
+      playersCount: 0,
+      players: [],
+      spyNum: 0,
+      spyPlayer: 0,
+      location: ''
+    };
+  }
+  fs.writeFile('game.json', JSON.stringify(gameObject), (err) => {
+    if (err) {
+      console.error(err);
+      return Promise.reject(err)
+    }
+    return Promise.resolve();
+  })
 };
 
 _resetGame = () => {
@@ -48,7 +92,6 @@ _resetGame = () => {
     players: [],
     spyNum: 0,
     spyPlayer: 0,
-    locations: _getLocationList(),
     location: ''
   };
 };
@@ -92,7 +135,10 @@ app.action(/create_game (.+)/, (ctx) => {
   _startNewGame(ctx);
 });
 
-app.on('sticker', ({ reply }) => reply('👍'));
+app.hears(/\/set (.+)/, (ctx) => {
+  _startNewGame(ctx);
+});
 
+app.on('sticker', ({ reply }) => reply('👍'));
 
 module.exports = app;
