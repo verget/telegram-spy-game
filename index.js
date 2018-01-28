@@ -43,20 +43,21 @@ _joinGame = (ctx) => {
   }
   if (currentGame.players.length == (currentGame.playersCount - 1)) {
     sendMessageToPlayers('Game started, lets play');
+    console.log(11);
     setTimeout(() => _finishGame(), 5 * 360000); //end game after 5 minutes
   }
 };
+
 _finishGame = () => {
   sendMessageToPlayers('Time is over. Spy won.');
   _resetGame();
 };
+
 sendMessageToPlayers = (text) => {
   if (!currentGame.players.length) {
     return false;
   }
-  console.log('sendMessageToPlayers');
   currentGame.players.forEach(player => {
-    console.log(player);
     app.telegram.sendMessage(player.id, text);
   });
 };
