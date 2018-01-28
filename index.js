@@ -44,7 +44,7 @@ _joinGame = (ctx) => {
   if (currentGame.players.length == (currentGame.playersCount - 1)) {
     sendMessageToPlayers('Game started, lets play');
     //console.log(11);
-    //setTimeout(() => _finishGame(), 5 * 360000); //end game after 5 minutes
+    setTimeout(() => _finishGame(), 5 * 360000); //end game after 5 minutes
   }
 };
 
